@@ -1,4 +1,6 @@
-﻿using GetBooksWeb.Models;
+﻿using GetBooks.DataAccess.IRepository;
+using GetBooks.Models;
+using GetBooksWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,9 +10,12 @@ namespace GetBooksWeb.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IUnitOfWork unitOfWork;
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
+            this.unitOfWork = unitOfWork;
+            
         }
 
         public IActionResult Index()
