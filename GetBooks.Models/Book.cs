@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace GetBooks.Models
 {
@@ -11,6 +12,9 @@ namespace GetBooks.Models
         public string Title { get; set; }
 
         [Required]
+        public string Author { get; set; }
+
+        [Required]
         public string ISBN { get; set; }
 
         [Required]
@@ -19,7 +23,7 @@ namespace GetBooks.Models
         [Required]
         public string Description { get; set; }
 
-        [Required]
+        [ValidateNever]
         public string ImageUrl { get; set; }
 
     }

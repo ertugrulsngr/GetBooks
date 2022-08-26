@@ -1,0 +1,84 @@
+﻿@model GetBooks.Models.Book
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+	<div class="row">
+		<input asp-for="Id" hidden />
+		<input asp-for="ImageUrl" hidden />
+
+		<div class="col-@(Model.Id == 0 ? "12" : "7")">
+			<div class="border p-3 mt-4 row">
+				<div class="col-12 pb-2">
+					<h2 class="text-primary">@(Model.Id == 0 ? "Create" : "Update")</h2>
+					<hr/>
+				</div>
+
+				<div class="mb-3 col-6">
+					<label asp-for="Title"></label>
+					<input asp-for="Title" class="form-control" />
+					<span asp-validation-for="Title" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Author"></label>
+					<input asp-for="Author" class="form-control" />
+					<span asp-validation-for="Author" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="ISBN"></label>
+					<input asp-for="ISBN" class="form-control" />
+					<span asp-validation-for="ISBN" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label asp-for="Price"></label>
+					<input asp-for="Price" class="form-control" />
+					<span asp-validation-for="Price" class="text-danger"></span>
+				</div>
+				<div class="mb-3">
+					<label asp-for="Description"></label>
+					<textarea asp-for="Description" rows="3" class="form-control"></textarea>
+					<span asp-validation-for="Description" class="text-danger"></span>
+				</div>
+				<div class="mb-3">
+					<label asp-for="ImageUrl"></label>
+					<input  type="file" id="imageInput" name="image" class="form-control" />
+					<span asp-validation-for="ImageUrl" class="text-danger"></span>
+				</div>
+
+				<div class="col-12 text-end">
+					@if(Model.Id == 0){
+						<button type="submit" onclick="return ValidateImage()" class="btn btn-primary" style="width:155px">Create</button>
+					}
+					else
+					{
+						<button type="submit" class="btn btn-primary" style="width:155px">Update</button>
+					}
+
+					<a asp-controller="Book" asp-action="Index" class="btn btn-info"style="width:155px">Back to List</a>
+				</div>
+			</div>
+		</div>
+		@if (Model.Id != 0){
+			<div class="col-5">
+				<div class="mt-4">
+					<img src="@Model.ImageUrl" width=100% style="border-radius:5px; border:1px solid #bbb9b9" />
+				</div>
+			</div>
+		}
+	</div>
+</form>
+
+@section Scripts{
+	<partial name="_ValidationScriptsPartial" />
+	<script>
+		function ValidateImage(){
+			if(document.getElementById("imageInput").value ==""){
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text: 'Please upload an image!',
+				})
+				return false;
+			}
+			return true;
+		}
+	</script>
+}
