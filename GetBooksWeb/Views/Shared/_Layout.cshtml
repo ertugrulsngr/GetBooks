@@ -33,7 +33,10 @@
                             <li class="nav-item dropdown">
                                <label class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin Panel</label>
                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Book" asp-action="Index">Book</a>
+                                   <h5 class="dropdown-header">Product Management</h5>
+                                    <a class="dropdown-item" asp-area="Admin" asp-controller="Book" asp-action="Index">Book Management</a>
+                                    <div class="dropdown-divider"></div>
+                                    <h5 class="dropdown-header">User Management</h5>
                                     <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Register">Create User</a> 
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Users</a> 
                               </div>
@@ -52,8 +55,8 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="border-top footer text-muted" style="bottom:5px;position: fixed; width:100%;">
+        <div class="container text-">
             &copy; 2022 - GetBooks
         </div>
     </footer>
