@@ -1,0 +1,41 @@
+﻿@model GetBooks.Models.ViewModels.UserEditVM;
+
+<form method="post" asp-action="Edit">
+	<div class="row">
+		<input asp-for="@Model.UserVM.Id" hidden />
+		<div class="border p-3 mt-4 row">
+			<div class="col-12 pb-2">
+				<h2 class="text-primary">Edit User</h2>
+				<hr />
+			</div>
+
+			<div class="mb-3">
+				<label asp-for="@Model.UserVM.Email"></label>
+				<input asp-for="@Model.UserVM.Email" class="form-control"/>
+				<span asp-validation-for="@Model.UserVM.Email" class="text-danger"></span>
+			</div>
+			<div class="mb-3">
+				<label asp-for="@Model.UserVM.Role"></label>
+				<select asp-for="@Model.UserVM.Role" asp-items="@Model.RoleList" class="form-select">
+				</select>
+				<span asp-validation-for="@Model.UserVM.Role" class="text-danger"></span>
+			</div>
+
+			<div class="mb-3 col-6 text-end">
+				<label asp-for="@Model.NewPassword"></label>
+				<input asp-for="@Model.NewPassword" class="form-control"/>
+				<span asp-validation-for="@Model.NewPassword" class="text-danger"></span>
+			</div>
+			<div class="mb-3 text-end">
+				<button type="submit" class="btn btn-primary" style="width:155px">Update</button>
+				<a onclick=Delete("@Model.UserVM.Id") class="btn btn-secondary">Delete</a>
+			</div>
+		</div>
+	</div>
+</form>
+
+@section Scripts{
+	<partial name="_ValidationScriptsPartial" />
+	<script src="~/js/userDelete.js"></script>
+}
+
