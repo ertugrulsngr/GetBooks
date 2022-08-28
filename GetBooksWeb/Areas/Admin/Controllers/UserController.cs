@@ -120,7 +120,7 @@ namespace GetBooksWeb.Areas.Admin.Controllers
                     }
 
                     TempData["success"] = "User updated succesfully";
-                    return RedirectToAction(nameof(Index), new {id = user.Id});
+                    return RedirectToAction(nameof(Edit), new {id = user.Id});
                 }
                 return NotFound();
             }
@@ -148,10 +148,12 @@ namespace GetBooksWeb.Areas.Admin.Controllers
             IdentityUser user = userManager.FindByIdAsync(userId).GetAwaiter().GetResult();
             if (user != null)
             {
-                userManager.DeleteAsync(user).GetAwaiter().GetResult();
-                return RedirectToAction(nameof(Index));
+                var result = userManager.DeleteAsync(user).GetAwaiter().GetResult();
+                string message = result.Succeeded ? "User has deleted succesfully" : "User couldn't deleted";
+                return Json(new { success = result.Succeeded, message=message});
+
             }
-            return NotFound();
+            return Json(new { success = false, message = "User couldn't found" });
         }
     
         

@@ -186,7 +186,7 @@ namespace GetBooksWeb.Areas.Identity.Pages.Account
                     {
                         if (User.IsInRole(Roles.Admin))
                         {
-                            TempData["success"] = "New User Created Succesfully";
+                            TempData["success"] = "New User is Created Succesfully";
                             return Page();
                         }
                         else
