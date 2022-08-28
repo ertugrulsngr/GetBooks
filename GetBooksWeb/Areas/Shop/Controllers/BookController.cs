@@ -4,28 +4,30 @@ using GetBooksWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace GetBooksWeb.Controllers
+namespace GetBooksWeb.Areas.Shop.Controllers
 {
-    public class HomeController : Controller
+    [Area("Shop")]
+    public class BookController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<BookController> _logger;
 
         private readonly IUnitOfWork unitOfWork;
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+        public BookController(ILogger<BookController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             this.unitOfWork = unitOfWork;
-            
-        }
 
+        }
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Book> books = unitOfWork.Book.GetAll();
+            return View(books);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Details(int bookId)
         {
-            return View();
+            Book book = unitOfWork.Book.GetFirstOrDefault(u => u.Id == bookId);
+            return View(book);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

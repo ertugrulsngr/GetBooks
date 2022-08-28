@@ -34,7 +34,7 @@
 				</div>
 				<div class="mb-3">
 					<label asp-for="Description"></label>
-					<textarea asp-for="Description" rows="3" class="form-control"></textarea>
+					<textarea asp-for="Description" rows="8" class="form-control"></textarea>
 					<span asp-validation-for="Description" class="text-danger"></span>
 				</div>
 				<div class="mb-3">
@@ -59,7 +59,7 @@
 		@if (Model.Id != 0){
 			<div class="col-5">
 				<div class="mt-4">
-					<img src="@Model.ImageUrl" width=100% style="border-radius:5px; border:1px solid #bbb9b9" />
+					<img src="@Model.ImageUrl" class="img-fluid rounded-start" style="width: 100%; height: 25vw; object-fit: cover;">
 				</div>
 			</div>
 		}
