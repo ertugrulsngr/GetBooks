@@ -8,5 +8,7 @@ namespace GetBooks.DataAccess.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<Book> Books { get; set; }
+        public DbSet<CartItemTemp> CartItemTemps { get; set; }
+        public DbSet<Cart> Carts { get; set; }
     }
 }
