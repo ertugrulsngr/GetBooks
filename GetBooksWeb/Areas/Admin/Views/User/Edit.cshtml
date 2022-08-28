@@ -3,6 +3,7 @@
 <form method="post" asp-action="Edit">
 	<div class="row">
 		<input asp-for="@Model.UserVM.Id" hidden />
+		<div asp-validation-summary="All" class="text-danger mt-2"></div>
 		<div class="border p-3 mt-4 row">
 			<div class="col-12 pb-2">
 				<h2 class="text-primary">Edit User</h2>

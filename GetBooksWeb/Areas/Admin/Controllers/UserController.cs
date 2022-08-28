@@ -75,7 +75,16 @@ namespace GetBooksWeb.Areas.Admin.Controllers
                 {
                     if (uevm.UserVM.Email != user.Email)
                     {
-                        userManager.SetEmailAsync(user, uevm.UserVM.Email).GetAwaiter().GetResult();
+                        var result = userManager.SetEmailAsync(user, uevm.UserVM.Email).GetAwaiter().GetResult();
+                        if (!IsEditResultSuccesfull(result))
+                        {
+                            uevm.RoleList = roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                            {
+                                Text = i,
+                                Value = i
+                            });
+                            return View(uevm);
+                        }
                     }
 
                     IList<string> userRoles = userManager.GetRolesAsync(user).GetAwaiter().GetResult();
@@ -83,7 +92,31 @@ namespace GetBooksWeb.Areas.Admin.Controllers
                     if (!userRoles.Contains(uevm.UserVM.Role))
                     {
                         userManager.RemoveFromRolesAsync(user, userRoles).GetAwaiter().GetResult();
-                        userManager.AddToRoleAsync(user, uevm.UserVM.Role).GetAwaiter().GetResult();
+                        var result = userManager.AddToRoleAsync(user, uevm.UserVM.Role).GetAwaiter().GetResult();
+                        if (!IsEditResultSuccesfull(result))
+                        {
+                            uevm.RoleList = roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                            {
+                                Text = i,
+                                Value = i
+                            });
+                            return View(uevm);
+                        }
+                    }
+
+                    if (uevm.NewPassword != null)
+                    {
+                        var token = userManager.GeneratePasswordResetTokenAsync(user).GetAwaiter().GetResult();
+                        var result = userManager.ResetPasswordAsync(user, token, uevm.NewPassword).GetAwaiter().GetResult();
+                        if (!IsEditResultSuccesfull(result))
+                        {
+                            uevm.RoleList = roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                            {
+                                Text = i,
+                                Value = i
+                            });
+                            return View(uevm);
+                        }
                     }
 
                     TempData["success"] = "User updated succesfully";
@@ -95,6 +128,20 @@ namespace GetBooksWeb.Areas.Admin.Controllers
             return View(uevm);
         }
         
+        private bool IsEditResultSuccesfull(IdentityResult result)
+        {
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                TempData["error"] = "User could not updated";
+                return false;
+            }
+            return true;
+        }
+
         [HttpDelete]
         public IActionResult Delete(string? userId)
         {
@@ -106,5 +153,7 @@ namespace GetBooksWeb.Areas.Admin.Controllers
             }
             return NotFound();
         }
+    
+        
     }
 }
