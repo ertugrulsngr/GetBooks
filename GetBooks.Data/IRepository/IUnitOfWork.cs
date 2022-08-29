@@ -12,6 +12,8 @@ namespace GetBooks.DataAccess.IRepository
 
         public ICartItemTempRepository CartItemTemp { get;}
 
+        public ICartItemRepository CartItem { get;}
+
         public ICartRepository Cart { get; }
 
         void Save();
