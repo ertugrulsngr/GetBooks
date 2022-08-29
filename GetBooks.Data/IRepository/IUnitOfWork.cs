@@ -16,6 +16,7 @@ namespace GetBooks.DataAccess.IRepository
 
         public ICartRepository Cart { get; }
 
+        public IOrderRepository Order { get; }
         void Save();
     }
 }

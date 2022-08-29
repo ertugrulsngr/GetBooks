@@ -18,6 +18,8 @@ namespace GetBooks.DataAccess.Repository
 
         public ICartItemRepository CartItem { get; private set; }
 
+        public IOrderRepository Order { get; private set; }
+
         private readonly ApplicationDbContext db;
 
         public UnitOfWork(ApplicationDbContext db)
@@ -27,6 +29,7 @@ namespace GetBooks.DataAccess.Repository
             CartItemTemp = new CartItemTempRepository(db);
             Cart = new CartRepository(db);
             CartItem = new CartItemRepository(db);
+            Order = new OrderRepository(db);
         }
 
         public void Save()
