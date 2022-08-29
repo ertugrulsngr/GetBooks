@@ -1,10 +1,14 @@
-﻿@using GetBooks.Models
-@model IEnumerable<CartItemTemp>
+﻿@using GetBooks.Models.ViewModels
+@model SummaryVM
 @{
 	float total = 0;
 }
 
 <div class="container p-3">
+	@if(@Model.CartId != null)
+	{
+		<input id="cartId" hidden value="@Model.CartId"/>
+	}
 	<div class="row pt-4">
 		<div class="col-6">
 			<h2 class="text-primary">Cart Items</h2>
@@ -22,8 +26,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			@if (Model.Count() > 0){
-				@foreach(var cartItemTemp in Model)
+			@if (Model.CartItems.Count() > 0){
+				@foreach(var cartItemTemp in Model.CartItems)
 				{
 					total += cartItemTemp.Book.Price * cartItemTemp.Count;
 					<tr>
@@ -53,12 +57,16 @@
 			
 		</tbody>
 	</table>
-	@if (Model.Count() > 0)
+	@if (Model.CartItems.Count() > 0)
 	{
+		<div class="mb-3">
+			<label>Address</label>
+			<textarea id="address" rows="4" class="form-control"></textarea>
+		</div>
 		<div class="float-end mt-3">
 			<h2>Total: @total.ToString("c")</h2>
 			<div class="text-end">
-				<button class="w-100 btn btn-success">Approve</button>
+				<button onclick="CreateOrder()" class="w-100 btn btn-success">Approve</button>
 			</div>
 			
 		</div>
@@ -67,4 +75,5 @@
 
 @section Scripts{
 	<script src="~/js/cartItemTemp.js"></script>
+	<script src="~/js/createOrder.js"></script>
 }

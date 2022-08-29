@@ -43,5 +43,11 @@ namespace GetBooks.Models
 
         [Required]
         public OrderStatus Status { get; set; }
+
+        [Required]
+        public int TotalPrice { get; set; }
+
+        [Required]
+        public string Adress { get; set; }
     }
 }

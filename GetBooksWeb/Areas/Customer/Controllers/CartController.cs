@@ -80,13 +80,15 @@ namespace GetBooksWeb.Areas.Customer.Controllers
             string UserId = IdentityUtility.GetUserId(User.Identity);
             Cart cart = unitOfWork.Cart.GetFirstOrDefault(x => x.UserId == UserId && x.Status == CartStatus.InShopping);
 
-            IEnumerable<CartItemTemp> cartItemTemps = new List<CartItemTemp>();
+            SummaryVM summaryVM = new SummaryVM();
+            summaryVM.CartItems = new List<CartItemTemp>();
             if (cart != null)
             {
-                cartItemTemps = unitOfWork.CartItemTemp.GetAll(x => x.CartId == cart.Id, "Book");
+                summaryVM.CartId = cart.Id;
+                summaryVM.CartItems = unitOfWork.CartItemTemp.GetAll(x => x.CartId == cart.Id, "Book");
             }
-
-            return View(cartItemTemps);
+            
+            return View(summaryVM);
         }
 
         // API
@@ -156,6 +158,61 @@ namespace GetBooksWeb.Areas.Customer.Controllers
             unitOfWork.Save();
             TempData["success"] = "Item deleted";
             return Json(new { success = true, message = "Item deleted" });
+        }
+
+        // API
+        public IActionResult ApproveCart(int CartId, string address)
+        {
+            string UserId = IdentityUtility.GetUserId(User.Identity);
+
+            Cart cart = unitOfWork.Cart.GetFirstOrDefault(x => x.Id == CartId && x.UserId == UserId);
+            if (cart == null)
+            {
+                // Cart is null
+                return Json(new { success = false, message = "Cart not found"});
+            }
+
+            IEnumerable<CartItemTemp> cartItemTemps = unitOfWork.CartItemTemp.GetAll(x => x.CartId == cart.Id, "Book");
+            if (cartItemTemps.Count() <= 0)
+            {
+                // There is no item in cart
+                return Json(new { success = false, message = "There is no item in cart"});
+            }
+
+            int TotalPrice = 0;
+            foreach (CartItemTemp cartItemTemp in cartItemTemps)
+            {
+                CartItem cartItem = new CartItem()
+                {
+                    CartId = cartItemTemp.CartId,
+                    BookId = cartItemTemp.BookId,
+                    BookTitle = cartItemTemp.Book.Title,
+                    ISBN = cartItemTemp.Book.ISBN,
+                    Count = cartItemTemp.Count,
+                    Price = cartItemTemp.Book.Price,
+                };
+                TotalPrice += cartItem.Price * cartItem.Count;
+                unitOfWork.CartItem.Add(cartItem);
+            }
+            Order order = new Order()
+            {
+                CartId = cart.Id,
+                UserId = cart.UserId,
+                CreatedDate = DateTime.Now,
+                Status = OrderStatus.WaitingForApproval,
+                TotalPrice = TotalPrice,
+                Adress = address
+            };
+
+            unitOfWork.CartItemTemp.RemoveRange(cartItemTemps);
+
+            cart.Status = CartStatus.Ordered;
+
+            unitOfWork.Order.Add(order);
+
+            unitOfWork.Save();
+
+            return Json(new { success=true, message= "Order is created successfully"});
         }
     }
 }
