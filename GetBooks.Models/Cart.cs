@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,7 @@ namespace GetBooks.Models
         public string UserId { get; set; }
 
         [ForeignKey("UserId")]
+        [ValidateNever]
         public IdentityUser User { get; set; }
 
         [Required]

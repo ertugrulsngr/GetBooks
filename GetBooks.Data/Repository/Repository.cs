@@ -26,7 +26,7 @@ namespace GetBooks.DataAccess.Repository
             dbset.Add(item);
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string[]? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, params string[]? includeProperties)
         {
             IQueryable<T> query = dbset;
             if (filter != null)
@@ -37,13 +37,13 @@ namespace GetBooks.DataAccess.Repository
             {
                 foreach (string property in includeProperties)
                 {
-                    query.Include(property);
+                    query = query.Include(property);
                 }
             }
             return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string[]? includeProperties = null)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, params string[]? includeProperties)
         {
             IQueryable<T> query = dbset;
             query = query.Where(filter);
@@ -51,7 +51,7 @@ namespace GetBooks.DataAccess.Repository
             {
                 foreach (string property in includeProperties)
                 {
-                    query.Include(property);
+                    query = query.Include(property);
                 }
             }
             return query.FirstOrDefault();

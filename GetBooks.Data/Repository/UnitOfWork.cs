@@ -12,12 +12,18 @@ namespace GetBooks.DataAccess.Repository
     {
         public IBookRepository Book { get; private set; }
 
+        public ICartItemTempRepository CartItemTemp { get; private set; }
+
+        public ICartRepository Cart { get; private set; }
+
         private readonly ApplicationDbContext db;
 
         public UnitOfWork(ApplicationDbContext db)
         {
             this.db = db;
             Book = new BookRepository(db);
+            CartItemTemp = new CartItemTempRepository(db);
+            Cart = new CartRepository(db);
         }
 
         public void Save()

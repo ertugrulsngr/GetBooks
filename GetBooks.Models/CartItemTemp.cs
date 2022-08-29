@@ -25,7 +25,7 @@ namespace GetBooks.Models
         [Required]
         public int CartId { get; set; }
 
-        [ForeignKey("BookId")]
+        [ForeignKey("CartId")]
         [ValidateNever]
         public Cart Cart { get; set; }
     }

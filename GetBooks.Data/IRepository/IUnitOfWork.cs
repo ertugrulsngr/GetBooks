@@ -10,6 +10,10 @@ namespace GetBooks.DataAccess.IRepository
     {
         IBookRepository Book { get;}
 
+        public ICartItemTempRepository CartItemTemp { get;}
+
+        public ICartRepository Cart { get; }
+
         void Save();
     }
 }

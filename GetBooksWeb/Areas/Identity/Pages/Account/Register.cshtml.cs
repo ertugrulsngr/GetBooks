@@ -113,6 +113,12 @@ namespace GetBooksWeb.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if (User.Identity.IsAuthenticated && !User.IsInRole(Roles.Admin))
+            {
+                Response.Redirect("/Shop/Book/Index");
+                return;
+            }
+
             if (!_roleManager.RoleExistsAsync(Roles.Admin).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(Roles.Admin)).GetAwaiter().GetResult();

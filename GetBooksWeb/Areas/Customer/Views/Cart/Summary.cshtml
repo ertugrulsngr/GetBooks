@@ -1,0 +1,70 @@
+﻿@using GetBooks.Models
+@model IEnumerable<CartItemTemp>
+@{
+	float total = 0;
+}
+
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Cart Items</h2>
+		</div>
+	</div>
+	<br />
+	<br />
+	<table id="userTable" class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th style="width:50%">Book Title</th>
+				<th style="width:15%">Price</th>
+				<th style="width:15%">Count</th>
+				<th style="width:15%"></th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.Count() > 0){
+				@foreach(var cartItemTemp in Model)
+				{
+					total += cartItemTemp.Book.Price * cartItemTemp.Count;
+					<tr>
+						<th>@cartItemTemp.Book.Title</th>
+						<th>@cartItemTemp.Book.Price</th>
+						<th>@cartItemTemp.Count</th>
+					
+						<td>
+							<div class="btn-group d-flex justify-content-center" role="group">
+								<button onclick="IncreaseCount(@cartItemTemp.Id)" class="btn btn-primary me-2" style="width:100%"><i class="bi bi-plus-circle"></i></button>
+								<button onclick="DecreaseCount(@cartItemTemp.Id)" class="btn btn-secondary me-2" style="width:100%"><i class="bi bi-dash-circle"></i></button>
+								<button onclick="Delete(@cartItemTemp.Id)" class="btn btn-danger" style="width:100%"><i class="bi bi-trash"></i></button>
+							</div>
+						
+						</td>
+					</tr>
+				}
+			}
+			else
+			{
+				<tr>
+					<td colspan=4 style="text-align:center">
+						<h2 class=text-info>Your cart is empty</h2>
+					</td>
+				</tr>
+			}
+			
+		</tbody>
+	</table>
+	@if (Model.Count() > 0)
+	{
+		<div class="float-end mt-3">
+			<h2>Total: @total.ToString("c")</h2>
+			<div class="text-end">
+				<button class="w-100 btn btn-success">Approve</button>
+			</div>
+			
+		</div>
+	}
+</div>
+
+@section Scripts{
+	<script src="~/js/cartItemTemp.js"></script>
+}
