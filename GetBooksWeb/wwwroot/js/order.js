@@ -12,8 +12,13 @@ function formatDate(date) {
     return date.replace("T", " ").substring(0, date.indexOf('.'));
 }
 
+const OrderStatus = {
+    WaitingForApproval : 0,
+    Approved: 1,
+    Cancelled: 2 
+}
+
 $(document).ready(function () {
-    console.log("halo");
     LoadDataTable();
 });
 
@@ -27,7 +32,7 @@ function LoadDataTable() {
             { "data": "id" },
             { "data": "user.email" },
             { "data": "createdDate", render: function (data) { return `${formatDate(data)}` } },
-            { "data": "status"},
+            { "data": "status", render: function (data) { return `${Object.keys(OrderStatus).find(key => OrderStatus[key] === data)}` } },
             {
                 "data": "id",
                 "class": "text-center",
