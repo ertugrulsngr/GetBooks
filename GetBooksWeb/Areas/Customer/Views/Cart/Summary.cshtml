@@ -16,7 +16,7 @@
 	</div>
 	<br />
 	<br />
-	<table id="userTable" class="table table-bordered table-striped" style="width:100%">
+	<table id="cartItemsTable" class="table table-bordered table-striped" style="width:100%">
 		<thead>
 			<tr>
 				<th style="width:50%">Book Title</th>
@@ -31,9 +31,9 @@
 				{
 					total += cartItemTemp.Book.Price * cartItemTemp.Count;
 					<tr>
-						<th>@cartItemTemp.Book.Title</th>
-						<th>@cartItemTemp.Book.Price</th>
-						<th>@cartItemTemp.Count</th>
+						<td>@cartItemTemp.Book.Title</td>
+						<td>@cartItemTemp.Book.Price</td>
+						<td>@cartItemTemp.Count</td>
 					
 						<td>
 							<div class="btn-group d-flex justify-content-center" role="group">

@@ -1,0 +1,39 @@
+﻿@using GetBooks.Models.ViewModels
+@model OrderVM
+
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Order @Model.order.Id</h2>
+			<h4 class="text-primary">Status: @Model.order.Status</h4>
+		</div>
+	</div>
+	<br />
+	<br />
+	<table id="cartItemsTable" class="table table-bordered table-striped" style="width:100%">
+		<thead>
+			<tr>
+				<th style="width:50%">Book Title</th>
+				<th style="width:15%">Price</th>
+				<th style="width:15%">Count</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach(var cartItem in Model.cartItems)
+			{
+				<tr>
+					<td>@cartItem.BookTitle</td>
+					<td>@cartItem.Price</td>
+					<td>@cartItem.Count</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<div class="mb-3">
+			<label>Address</label>
+			<textarea disabled asp-for="@Model.order.Adress" rows="4" class="form-control"></textarea>
+	</div>
+	<div class="float-end mt-3">
+			<h2>Total: @Model.order.TotalPrice.ToString("c")</h2>	
+		</div>
+</div>

@@ -12,7 +12,9 @@ namespace GetBooks.Models
 {
     public enum OrderStatus
     {
+        [Display(Name ="Waiting For Approval")]
         WaitingForApproval,
+
         Approved,
         Cancelled
     }

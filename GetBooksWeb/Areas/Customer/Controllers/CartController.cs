@@ -125,7 +125,7 @@ namespace GetBooksWeb.Areas.Customer.Controllers
                 return Json(new { sucess = false, message = "Access denied" });
             }
 
-            if (cartItemTemp.Count <= 0)
+            if (cartItemTemp.Count <= 1)
             {
                 unitOfWork.CartItemTemp.Remove(cartItemTemp);
                 unitOfWork.Save();
