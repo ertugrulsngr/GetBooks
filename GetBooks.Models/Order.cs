@@ -14,7 +14,6 @@ namespace GetBooks.Models
     {
         [Display(Name ="Waiting For Approval")]
         WaitingForApproval,
-
         Approved,
         Cancelled
     }
