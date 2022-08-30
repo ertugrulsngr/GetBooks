@@ -3,10 +3,14 @@
 var modalWrap = null;
 
 
-var formatter = new Intl.NumberFormat('tr-TR', {
+var priceFormatter = new Intl.NumberFormat('tr-TR', {
     style: 'currency',
     currency: 'TRY',
 });
+
+function formatDate(date) {
+    return date.replace("T", " ").substring(0, date.indexOf('.'));
+}
 
 $(document).ready(function () {
     console.log("halo");
@@ -19,12 +23,11 @@ function LoadDataTable() {
         "ajax": {
             "url": "/Admin/Order/GetAll"
         },
-
         "columns": [
             { "data": "id" },
             { "data": "user.email" },
-            { "data": "createdDate" },
-            { "data": "status" },
+            { "data": "createdDate", render: function (data) { return `${formatDate(data)}` } },
+            { "data": "status"},
             {
                 "data": "id",
                 "class": "text-center",
@@ -106,7 +109,7 @@ function InsertToTable(data) {
         tableRef.insertRow().innerHTML = `
                 <tr>
 					<td>${data[index].bookTitle}</td>
-					<td>${formatter.format(data[index].price)}</td>
+					<td>${priceFormatter.format(data[index].price)}</td>
 					<td>${data[index].count}</td>
 				</tr>
             `;
