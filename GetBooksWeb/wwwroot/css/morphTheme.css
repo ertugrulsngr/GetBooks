@@ -4143,6 +4143,11 @@ textarea.form-control-lg {
             border-color: var(--bs-nav-tabs-link-active-border-color);
         }
 
+        .navbar-nav .nav-item.active .nav-link,
+        .navbar-nav .nav-item:hover .nav-link {
+            color: var(--bs-pink);
+        }
+
     .nav-tabs .dropdown-menu {
         margin-top: calc(var(--bs-nav-tabs-border-width) * -1);
         border-top-left-radius: 0;
