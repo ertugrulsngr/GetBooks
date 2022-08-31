@@ -36,7 +36,7 @@ namespace GetBooksWeb.Areas.Admin.Controllers
                 return Json(new { found = false });
             }
             var items = unitOfWork.CartItem.GetAll(x => x.CartId == order.CartId);
-            return Json(new { found = true, data = items });
+            return Json(new { found = true, data = items , status=order.Status});
         }
 
         public IActionResult ChangeStatus(int? id, int status)

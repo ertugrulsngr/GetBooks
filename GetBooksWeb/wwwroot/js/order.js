@@ -72,6 +72,7 @@ function ShowModal(data, id) {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <h2 class="text-primary" id="status">Current Status: ${Object.keys(OrderStatus).find(key => OrderStatus[key] === data.status)}</h2>
                         <div class="dropdown mb-3">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 Change Status
@@ -128,12 +129,15 @@ function ChangeStatus(id, statusId) {
         type: "GET",
         success: function (data) {
             if (data.success) {
+                var sas = "asdasd";
                 dataTable.ajax.reload();
                 Swal.fire({
                     icon: 'success',
                     title: 'Successful',
-                    text: data.messsage
+                    text: data.message
                 });
+                var newStatus = `${Object.keys(OrderStatus).find(key => OrderStatus[key] === parseInt(statusId))}`;
+                $("#status").text("Current Status: " + newStatus);
             }
             else {
                 Swal.fire({

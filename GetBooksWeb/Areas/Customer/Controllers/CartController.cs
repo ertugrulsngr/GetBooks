@@ -223,6 +223,9 @@ namespace GetBooksWeb.Areas.Customer.Controllers
 
             unitOfWork.Save();
 
+            int itemCount = unitOfWork.CartItemTemp.GetAll(x => x.CartId == CartId).ToList().Count;
+            HttpContext.Session.SetInt32(Statics.CartItemCount, itemCount);
+
             return Json(new { success=true, message= "Order is created successfully"});
         }
     }

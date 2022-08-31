@@ -18,7 +18,7 @@
                 Swal.fire({
                     icon: 'success',
                     title: 'Successful',
-                    text: data.messsage
+                    text: data.message
                 }).then((result) => {
                     window.location = "/Customer/Order/Index"
                 });
