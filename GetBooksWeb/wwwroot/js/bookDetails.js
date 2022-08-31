@@ -8,6 +8,9 @@ function AddToCart() {
 		success: function (data) {
 			if (data.success) {
 				toastr.success(data.message);
+				if (data.newCount != null) {
+					$("#cartItemCount").text("("+data.newCount+")");
+                }
 			}
 			else {
 				toastr.error(data.message)

@@ -60,7 +60,10 @@ namespace GetBooksWeb.Areas.Customer.Controllers
             unitOfWork.CartItemTemp.Add(cartItemTemp);
             unitOfWork.Save();
 
-            return Json(new { success = true, message = "Book has added to cart" });
+            int itemCount = unitOfWork.CartItemTemp.GetAll(x => x.CartId == cartItemTemp.CartId).ToList().Count;
+            HttpContext.Session.SetInt32(Statics.CartItemCount, itemCount);
+
+            return Json(new { success = true, message = "Book has added to cart", newCount = itemCount });
         }
 
         private Cart CreateNewCart(string UserId)
@@ -129,8 +132,12 @@ namespace GetBooksWeb.Areas.Customer.Controllers
             {
                 unitOfWork.CartItemTemp.Remove(cartItemTemp);
                 unitOfWork.Save();
+
+                int itemCount = unitOfWork.CartItemTemp.GetAll(x => x.CartId == cartItemTemp.CartId).ToList().Count;
+                HttpContext.Session.SetInt32(Statics.CartItemCount, itemCount);
+
                 TempData["success"] = "Item deleted";
-                return Json(new { success = true, message = "Item deleted" });
+                return Json(new { success = true, message = "Item deleted", newCount = itemCount});
             }
             
             cartItemTemp.Count--;
@@ -156,8 +163,12 @@ namespace GetBooksWeb.Areas.Customer.Controllers
 
             unitOfWork.CartItemTemp.Remove(cartItemTemp);
             unitOfWork.Save();
+
+            int itemCount = unitOfWork.CartItemTemp.GetAll(x => x.CartId == cartItemTemp.CartId).ToList().Count;
+            HttpContext.Session.SetInt32(Statics.CartItemCount, itemCount);
+
             TempData["success"] = "Item deleted";
-            return Json(new { success = true, message = "Item deleted" });
+            return Json(new { success = true, message = "Item deleted", newCount = itemCount });
         }
 
         // API

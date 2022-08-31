@@ -14,6 +14,11 @@ namespace GetBooks.Utility
         {
             ClaimsIdentity claimsIdentity = (ClaimsIdentity)userIdentity;
             Claim claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            if (claim == null) 
+            { 
+                return null; 
+            }
+
             return claim.Value;
         }
     }
